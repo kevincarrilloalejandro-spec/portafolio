@@ -21,8 +21,7 @@
             --text-main: #1a1a1a;
             --text-sec: #546E7A;
             --card-bg: #ffffff;
-            --white: #ffffff;
-            --transition: all 0.3s ease;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -48,37 +47,32 @@
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* --- Attribution Banner --- */
-        .dev-banner {
+        /* --- Attribution Banner (Discrete) --- */
+        .attribution-banner {
             background: #1a1a2e;
             color: white;
-            padding: 10px 5%;
-            font-size: 0.85rem;
+            height: 36px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            font-size: 11px;
             position: sticky;
             top: 0;
             z-index: 2000;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .btn-banner-port {
-            background: #6C63FF;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+        .attribution-banner a {
+            color: #6C63FF;
+            margin-left: 5px;
             font-weight: 600;
-            transition: var(--transition);
         }
-
-        .btn-banner-port:hover { background: #5b52e0; }
 
         /* --- Navbar --- */
         nav {
             position: sticky;
-            top: 40px; /* Below banner */
+            top: 36px; /* Offset by banner height */
             width: 100%;
             height: 80px;
             background: white;
@@ -87,24 +81,27 @@
             justify-content: space-between;
             padding: 0 5%;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            height: 70px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
+            gap: 12px;
+            font-size: 1.6rem;
             color: var(--primary);
             font-weight: 700;
         }
 
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { font-weight: 500; color: var(--text-sec); transition: var(--transition); }
+        .nav-links { display: flex; gap: 35px; align-items: center; }
+        .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--text-sec); transition: var(--transition); }
         .nav-links a:hover { color: var(--primary); }
-
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .phone-nav { color: var(--primary-dark); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
 
         .btn-nav {
             background: var(--accent);
@@ -112,31 +109,33 @@
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 700;
+            font-size: 0.9rem;
             transition: var(--transition);
         }
-
-        .btn-nav:hover { background: #e65100; transform: translateY(-2px); }
+        .btn-nav:hover { background: #e65100; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 111, 0, 0.3); }
 
         .menu-toggle { display: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
 
         /* --- Hero --- */
         .hero {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            padding: 100px 5% 120px;
+            padding: 120px 5% 140px;
             color: white;
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 60px;
             position: relative;
             z-index: 1;
+            overflow: hidden;
         }
 
+        /* Hexagonal Pattern via CSS */
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23ffffff' fill-opacity='0.04' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.91v12.68l11 6.35 11-6.35V17.91L14 11.56l-11 6.35zM0 15l12.99-7.5V0h2v7.5L28 15v15l-12.99 7.5V45h-2v-7.5L0 30V15zm2 1.15v12.7l11 6.35V45h2v-9.8l11-6.35V16.15L14 9.8l-11 6.35zM0 45h28v4H0v-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             z-index: -1;
         }
 
@@ -145,26 +144,30 @@
 
         .badge-hero {
             background: rgba(255,255,255,0.15);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 50px;
-            font-size: 0.9rem;
-            display: inline-block;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .hero h1 { font-size: 3.8rem; line-height: 1.1; margin-bottom: 25px; }
-        .hero p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 40px; max-width: 600px; }
+        .hero h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 25px; }
+        .hero p { font-size: 1.2rem; opacity: 0.85; margin-bottom: 45px; max-width: 550px; }
 
-        .hero-list { margin-bottom: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .hero-list li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .hero-checks { margin-bottom: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .hero-checks div { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 0.95rem; }
 
         .hero-btns { display: flex; gap: 20px; }
-        .btn-hero-solid { background: var(--accent); color: white; padding: 18px 32px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; }
-        .btn-hero-outline { border: 2px solid white; color: white; padding: 16px 32px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; }
+        .btn-hero-solid { background: var(--accent); color: white; padding: 18px 35px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(255, 111, 0, 0.2); }
+        .btn-hero-outline { border: 2px solid white; color: white; padding: 16px 35px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; transition: var(--transition); }
+        .btn-hero-outline:hover { background: rgba(255,255,255,0.1); }
 
         .hero-visual-box {
             background: var(--primary-dark);
-            width: 380px; height: 380px;
+            width: 360px; height: 360px;
             border-radius: 40px;
             display: flex;
             flex-direction: column;
@@ -174,223 +177,199 @@
             position: relative;
         }
 
-        .hero-emoji { font-size: 7rem; margin-bottom: 10px; }
-        .hero-visual-text { font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
-        .pests-line { margin-top: 20px; font-size: 1.8rem; display: flex; gap: 15px; }
+        .hero-emoji { font-size: 6rem; margin-bottom: 10px; }
+        .hero-label { font-weight: 700; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-icons { margin-top: 15px; font-size: 1.8rem; display: flex; gap: 15px; }
 
-        .stat-card {
+        .stat-badge {
             position: absolute;
             background: white; color: var(--text-main);
-            padding: 15px 20px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 12px 20px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             font-size: 0.85rem; font-weight: 700;
-            animation: float-hero 4s ease-in-out infinite alternate;
+            display: flex; flex-direction: column; align-items: center;
+            animation: float-stat 4s ease-in-out infinite alternate;
         }
-        .sc-1 { top: 10%; left: -10%; animation-delay: 0s; }
-        .sc-2 { bottom: 15%; right: -15%; animation-delay: 1s; }
-        .sc-3 { bottom: -10%; left: 10%; animation-delay: 2s; }
+        .sb-1 { top: -20px; right: 0; animation-delay: 0s; }
+        .sb-2 { bottom: 20%; left: -60px; animation-delay: 1s; }
+        .sb-3 { bottom: -20px; right: 40px; animation-delay: 2s; }
 
-        @keyframes float-hero {
+        @keyframes float-stat {
             from { transform: translateY(0); }
-            to { transform: translateY(-20px); }
+            to { transform: translateY(-15px); }
         }
 
         /* --- Sections --- */
         section { padding: 100px 5%; }
-        .section-header { text-align: center; margin-bottom: 70px; }
-        .badge-sec { background: var(--primary-light); color: var(--primary); padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; margin-bottom: 15px; display: inline-block; }
-        .section-title { font-size: 2.8rem; margin-bottom: 15px; color: var(--primary-dark); }
+        .section-header { text-align: center; margin-bottom: 70px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .badge-sec { background: var(--primary-light); color: var(--primary); padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; margin-bottom: 15px; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { font-size: 3rem; margin-bottom: 15px; color: var(--primary-dark); line-height: 1.2; }
         .section-sub { color: var(--text-sec); font-size: 1.1rem; }
 
         /* --- Services Grid --- */
-        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
 
         .service-card {
             background: white; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
             transition: var(--transition);
-            border-top: 4px solid var(--primary);
+            border-top: 5px solid var(--primary);
             display: flex; flex-direction: column;
             position: relative;
         }
 
-        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 45px rgba(0,0,0,0.12); }
 
-        .s-card-header { height: 120px; background: #f0f7f6; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
-        .s-card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .s-card-body h3 { font-size: 1.25rem; margin-bottom: 12px; color: var(--primary-dark); }
-        .s-price { color: var(--primary); font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; display: block; }
-        .s-card-body p { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 20px; }
+        .s-header { height: 130px; background: #f4fcfb; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .s-body { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        .s-body h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--primary-dark); }
+        .s-price { color: var(--primary); font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; display: block; }
+        .s-price-o { text-decoration: line-through; opacity: 0.4; font-size: 0.9rem; margin-left: 10px; }
+        .s-body p { font-size: 0.95rem; color: var(--text-sec); margin-bottom: 25px; }
 
-        .s-list { margin-bottom: 25px; }
-        .s-list li { font-size: 0.85rem; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .s-list li span { color: var(--primary); font-weight: 700; }
+        .s-features { margin-bottom: 30px; }
+        .s-features li { font-size: 0.9rem; color: var(--text-main); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .s-features li span { color: var(--primary); font-weight: 700; font-size: 1rem; }
 
-        .btn-card {
+        .btn-service {
             margin-top: auto;
             background: var(--accent); color: white;
-            text-align: center; padding: 14px; border-radius: 10px;
-            font-weight: 700; transition: var(--transition);
+            text-align: center; padding: 16px; border-radius: 12px;
+            font-weight: 700; font-size: 0.95rem; transition: var(--transition);
         }
-        .btn-card:hover { background: #e65100; }
+        .btn-service:hover { background: #e65100; }
 
-        .card-badge {
-            position: absolute; top: 10px; right: 10px;
-            background: var(--accent); color: white;
-            padding: 4px 10px; border-radius: 6px;
-            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+        .service-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: #FFD600; color: #7F6700;
+            padding: 5px 12px; border-radius: 6px;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
         }
-        .card-badge.green { background: var(--primary); }
+        .service-badge.orange { background: var(--accent); color: white; }
 
-        /* --- Process --- */
-        .process-sec { background: var(--primary-light); }
-        .process-grid { display: flex; justify-content: space-between; gap: 30px; position: relative; }
-        .step { flex: 1; text-align: center; position: relative; z-index: 1; }
-        .step-num { font-size: 4rem; font-weight: 900; color: var(--primary); opacity: 0.2; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); z-index: -1; }
-        .step-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
-        .step h4 { font-size: 1.3rem; margin-bottom: 10px; }
+        /* --- Steps section --- */
+        .steps-sec { background: var(--primary-light); overflow: hidden; }
+        .steps-grid { display: flex; justify-content: space-between; gap: 40px; position: relative; }
+        .step { flex: 1; text-align: center; position: relative; }
+        .step-num { font-size: 6rem; font-weight: 900; color: var(--primary); opacity: 0.1; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); z-index: 1; }
+        .step-content { position: relative; z-index: 2; }
+        .step-icon { font-size: 3rem; margin-bottom: 25px; display: block; }
+        .step h4 { font-size: 1.4rem; margin-bottom: 12px; }
         .step p { font-size: 0.95rem; color: var(--text-sec); }
 
-        .process-btn-box { text-align: center; margin-top: 70px; }
-
-        /* --- Why Us --- */
-        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .why-item { display: flex; gap: 20px; }
-        .why-icon { font-size: 2.2rem; }
-        .why-text h4 { font-size: 1.25rem; margin-bottom: 8px; color: var(--primary-dark); }
-        .why-text p { font-size: 0.95rem; color: var(--text-sec); }
+        /* --- Why Us section --- */
+        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; }
+        .why-card { display: flex; gap: 20px; }
+        .why-card .icon { font-size: 2.5rem; }
+        .why-card h4 { font-size: 1.2rem; margin-bottom: 10px; color: var(--primary-dark); }
+        .why-card p { font-size: 0.95rem; color: var(--text-sec); }
 
         /* --- Testimonials --- */
-        .testi-sec { background: #f0faf9; }
+        .testi-sec { background: #f4fcfb; }
         .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .testi-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative; }
-        .testi-card::before { content: '"'; font-size: 5rem; color: var(--primary); opacity: 0.1; position: absolute; top: 10px; left: 20px; }
-        .stars { color: #FFD600; margin-bottom: 15px; font-size: 1.2rem; }
-        .testi-card p { font-style: italic; margin-bottom: 25px; color: var(--text-main); position: relative; z-index: 1; }
-        .testi-user { font-weight: 700; color: var(--primary-dark); border-top: 1px solid #eee; padding-top: 15px; display: block; }
+        .testi-card { background: white; padding: 45px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .testi-stars { color: #FFD600; margin-bottom: 20px; font-size: 1.25rem; }
+        .testi-card p { font-size: 1.1rem; color: var(--text-main); font-style: italic; margin-bottom: 30px; line-height: 1.7; }
+        .testi-card .user { font-weight: 700; color: var(--primary-dark); font-size: 0.95rem; display: block; border-top: 1px solid #f0f0f0; padding-top: 20px; }
 
-        /* --- Contact Form --- */
-        .contact-sec { background: var(--primary-dark); color: white; }
-        .contact-desc { text-align: center; margin-bottom: 60px; }
-        .contact-desc p { opacity: 0.8; font-size: 1.2rem; }
+        /* --- Order Form Section --- */
+        .order-sec { background: var(--primary-dark); color: white; }
+        .order-container { max-width: 600px; margin: 0 auto; background: white; padding: 60px; border-radius: 35px; color: var(--text-main); box-shadow: 0 40px 80px rgba(0,0,0,0.4); }
+        .order-container h3 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 40px; }
 
-        .form-container {
-            background: white; max-width: 600px; margin: 0 auto;
-            border-radius: 30px; padding: 50px; color: var(--text-main);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-        }
+        .f-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-sec); }
+        .f-input { width: 100%; padding: 16px; border-radius: 12px; border: 1.5px solid #eee; margin-bottom: 20px; font-family: inherit; font-size: 1rem; outline: none; transition: var(--transition); }
+        .f-input:focus { border-color: var(--primary); background: #fafffe; }
 
-        .form-container h3 { color: var(--primary); font-size: 2rem; text-align: center; margin-bottom: 35px; }
-
-        .f-group { margin-bottom: 20px; }
-        .f-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-sec); }
-        .f-group input, .f-group select, .f-group textarea {
-            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #E0E0E0;
-            font-family: inherit; font-size: 1rem; outline: none; transition: var(--transition);
-        }
-        .f-group input:focus, .f-group select:focus, .f-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0,137,123,0.1); }
-
-        .btn-submit {
-            width: 100%; background: var(--accent); color: white;
-            padding: 18px; border-radius: 12px; border: none;
-            font-weight: 700; font-size: 1.1rem; cursor: pointer;
-            transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
+        .btn-submit { width: 100%; padding: 20px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; transition: var(--transition); }
         .btn-submit:hover { background: #e65100; transform: scale(1.02); }
 
         /* --- Footer --- */
-        footer { background: #002622; color: white; padding: 80px 5% 40px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 60px; }
-        .footer-logo { font-size: 1.8rem; margin-bottom: 15px; display: block; }
-        .footer-text { opacity: 0.7; max-width: 300px; }
+        footer { background: #002622; color: white; padding: 80px 5% 40px; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; gap: 60px; margin-bottom: 70px; }
+        .footer-logo { font-size: 1.8rem; margin-bottom: 20px; display: block; }
         .footer-links h5 { font-size: 1.2rem; margin-bottom: 25px; color: var(--primary-light); }
-        .footer-links li { margin-bottom: 12px; }
+        .footer-links li { margin-bottom: 15px; }
         .footer-links a { opacity: 0.7; transition: var(--transition); }
         .footer-links a:hover { opacity: 1; color: var(--primary-light); }
-
-        .footer-hours p { margin-bottom: 10px; display: flex; justify-content: space-between; gap: 20px; }
-        .footer-hours span { font-weight: 700; color: var(--primary-light); }
-
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; text-align: center; opacity: 0.5; font-size: 0.9rem; }
+        .footer-hours p { display: flex; justify-content: space-between; margin-bottom: 15px; opacity: 0.8; }
+        .footer-hours strong { color: var(--primary-light); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; text-align: center; opacity: 0.4; font-size: 0.85rem; }
 
         /* --- Floating WhatsApp --- */
-        .wa-float {
+        .wa-floating {
             position: fixed; bottom: 40px; right: 40px;
-            background: #25D366; width: 65px; height: 65px;
+            width: 70px; height: 70px; background: #25D366;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 35px; cursor: pointer; z-index: 3000;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            animation: wa-pulse 2s infinite;
+            color: white; font-size: 38px; cursor: pointer; z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: pulse-wa 2s infinite;
         }
 
-        @keyframes wa-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); transform: scale(0.95); }
-            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); transform: scale(1); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); transform: scale(0.95); }
+        @keyframes pulse-wa {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        .wa-badge {
-            position: absolute; top: -5px; right: -5px;
-            background: #FF3D00; color: white;
-            width: 25px; height: 25px; border-radius: 50%;
-            font-size: 0.75rem; font-weight: 700;
+        .wa-notify {
+            position: absolute; top: -2px; right: -2px; width: 28px; height: 28px;
+            background: #FF3D00; color: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            border: 2px solid white;
+            font-size: 0.8rem; font-weight: 800; border: 3px solid white;
         }
 
-        .wa-tooltip {
-            position: absolute; left: -160px; top: 12px;
-            background: #1a1a2e; color: white;
-            padding: 8px 15px; border-radius: 10px;
-            font-size: 0.85rem; font-weight: 600;
-            white-space: nowrap; pointer-events: none;
-            opacity: 0; transition: var(--transition); transform: translateX(20px);
+        .wa-tip {
+            position: absolute; right: 85px; top: 15px; background: #1a1a2e; color: white;
+            padding: 8px 18px; border-radius: 10px; font-weight: 600; font-size: 0.85rem;
+            white-space: nowrap; pointer-events: none; opacity: 0; transform: translateX(15px); transition: var(--transition);
         }
-        .wa-float:hover .wa-tooltip { opacity: 1; transform: translateX(0); }
+        .wa-floating:hover .wa-tip { opacity: 1; transform: translateX(0); }
 
-        /* --- Mobile --- */
+        /* --- Reveal --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Responsive --- */
         @media (max-width: 1200px) {
             .services-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero h1 { font-size: 3rem; }
+            .hero h1 { font-size: 3.2rem; }
         }
-
         @media (max-width: 991px) {
-            .hero { flex-direction: column; text-align: center; padding-top: 150px; }
-            .hero-text { width: 100%; }
-            .hero-visual { width: 100%; margin-top: 60px; }
-            .hero-list { justify-items: center; }
+            .hero { flex-direction: column; text-align: center; padding: 150px 5% 100px; }
+            .hero-text, .hero-visual { width: 100%; }
+            .hero-checks { justify-items: center; }
             .hero-btns { justify-content: center; }
-            .process-grid { flex-direction: column; gap: 60px; }
+            .steps-grid { flex-direction: column; gap: 60px; }
             .why-grid, .testi-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 50px; }
         }
-
-        @media (max-width: 768px) {
-            nav { top: 75px; } /* Adjust for banner height in wrap */
+        @media (max-width: 600px) {
+            .attribution-banner { font-size: 9.5px; height: 32px; }
+            nav { top: 32px; }
             .nav-links { display: none; }
             .menu-toggle { display: block; }
             .services-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.4rem; }
-            .form-container { padding: 30px; }
-            .sc-2 { right: 0; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero-checks { grid-template-columns: 1fr; }
+            .hero-btns { flex-direction: column; }
+            .hero-visual-box { width: 280px; height: 280px; }
+            .hero-emoji { font-size: 4rem; }
+            .order-container { padding: 30px; }
         }
-
-        /* Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
 
     </style>
 </head>
 <body>
 
     <!-- Attribution Banner -->
-    <div class="dev-banner">
-        👨‍💻 Demo creada por Kevin Ramírez — Desarrollador Web
-        <a href="index.html" class="btn-banner-port">Ver portafolio</a>
+    <div class="attribution-banner">
+        ✦ Página de ejemplo creada por Kevin Ramírez — Desarrollador Web 
+        <a href="index.html" target="_blank">[ Ver portafolio ]</a>
     </div>
 
     <!-- Navbar -->
-    <nav>
+    <nav id="navbar">
         <div class="logo">🛡️ FumiPro</div>
         <div class="nav-links" id="nav-links">
             <a href="#home">Inicio</a>
@@ -398,26 +377,27 @@
             <a href="#nosotros">Nosotros</a>
             <a href="#contacto">Contacto</a>
         </div>
-        <div class="nav-right">
-            <div class="phone-nav mobile-hide">📞 +57 313 863 2478</div>
-            <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20solicitar%20un%20servicio%20de%20fumigación%20🦟" target="_blank" class="btn-nav mobile-hide">Pedir ahora</a>
+        <div class="nav-right" style="display: flex; gap: 20px; align-items: center;">
+            <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20solicitar%20un%20servicio%20de%20fumigación%20🦟" target="_blank" class="btn-nav">Pedir ahora</a>
             <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero" id="home">
         <div class="hero-text">
-            <div class="badge-hero">✓ Más de 500 hogares protegidos</div>
+            <div class="badge-hero">
+                <span style="color: #4ADE80;">✓</span> Más de 500 hogares protegidos
+            </div>
             <h1>Fumigación profesional para tu hogar y negocio</h1>
-            <p>Eliminamos plagas de forma segura y efectiva con productos 100% certificados y garantía real de efectividad.</p>
+            <p>Eliminamos plagas de forma segura y efectiva. Productos certificados de grado profesional, resultados garantizados desde la primera visita.</p>
             
-            <ul class="hero-list">
-                <li>✅ Productos Certificados</li>
-                <li>✅ Personal Capacitado</li>
-                <li>✅ Garantía de 30+ días</li>
-                <li>✅ Atención Inmediata</li>
-            </ul>
+            <div class="hero-checks">
+                <div><span>✓</span> Productos 100% certificados</div>
+                <div><span>✓</span> Personal capacitado</div>
+                <div><span>✓</span> Garantía de efectividad</div>
+                <div><span>✓</span> Atención el mismo día</div>
+            </div>
 
             <div class="hero-btns">
                 <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20solicitar%20un%20servicio%20de%20fumigación%20🦟" target="_blank" class="btn-hero-solid">📱 Pedir servicio ahora</a>
@@ -427,233 +407,237 @@
         <div class="hero-visual">
             <div class="hero-visual-box">
                 <div class="hero-emoji">🏠✨</div>
-                <div class="hero-visual-text">Hogar Protegido</div>
-                <div class="pests-line">🚫🦟 🚫🐀 🚫🪲</div>
+                <div class="hero-label">Hogar Protegido</div>
+                <div class="hero-icons">🚫🦟 🚫🪲 🚫🐀 🚫🕷️</div>
             </div>
-            <div class="stat-card sc-1">500+ Clientes Felices</div>
-            <div class="stat-card sc-2">100% Garantizado</div>
-            <div class="stat-card sc-3">24h Respuesta Rápida</div>
+            <div class="stat-badge sb-1"><strong>500+</strong> Clientes Felices</div>
+            <div class="stat-badge sb-2"><strong>100%</strong> Garantía Real</div>
+            <div class="stat-badge sb-3"><strong>24h</strong> Respuesta Rápida</div>
         </div>
     </section>
 
-    <!-- Services Grid -->
+    <!-- Services Section -->
     <section id="servicios">
         <div class="section-header reveal">
-            <span class="badge-sec">Nuestros servicios</span>
+            <span class="badge-sec">Especialidades</span>
             <h2 class="section-title">¿Qué plaga necesitas eliminar?</h2>
-            <p class="section-sub">Selecciona el servicio y haz tu pedido fácilmente por WhatsApp</p>
+            <p class="section-sub">Selecciona un servicio profesional y agenda tu visita por WhatsApp en segundos.</p>
         </div>
 
         <div class="services-grid">
             <!-- S1 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🪲</div>
-                <div class="s-card-body">
+                <div class="s-header">🪲</div>
+                <div class="s-body">
                     <h3>Fumigación Cucarachas</h3>
                     <span class="s-price">Desde $80.000</span>
-                    <p>Eliminación efectiva en cocinas, baños y áreas comunes con gel y líquido de alta duración.</p>
-                    <ul class="s-list">
+                    <p>Eliminación exhaustiva en cocinas, grietas y baños. Utilizamos gel de larga duración sin olor.</p>
+                    <ul class="s-features">
                         <li><span>✓</span> Inspección previa</li>
                         <li><span>✓</span> Aplicación en focos</li>
                         <li><span>✓</span> Garantía 30 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Fumigación%20de%20Cucarachas.%20¿Me%20pueden%20dar%20más%20información%3F%20🪲" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20el%20servicio%20de%20fumigación%20de%20cucarachas%20🪲%20¿Me%20dan%20más%20info%3F" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
             <!-- S2 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🦟</div>
-                <div class="s-card-body">
+                <div class="s-header">🦟</div>
+                <div class="s-body">
                     <h3>Fumigación Mosquitos</h3>
                     <span class="s-price">Desde $90.000</span>
-                    <p>Control térmico y químico ideal para hogares, jardines y zonas abiertas con alta humedad.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Int / Ext incluido</li>
-                        <li><span>✓</span> Pet-friendly</li>
+                    <p>Control de mosquitos y voladores. Ideal para zonas con alta vegetación y áreas interiores.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Interior y exterior</li>
+                        <li><span>✓</span> Seguro para mascotas</li>
                         <li><span>✓</span> Garantía 30 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Fumigación%20de%20Mosquitos.%20¿Me%20pueden%20dar%20más%20información%3F%20🦟" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20el%20servicio%20de%20fumigación%20de%20mosquitos%20🦟%20¿Cuáles%20son los pasos a seguir%3F" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
             <!-- S3 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🐀</div>
-                <div class="s-card-body">
-                    <h3>Control Roedores</h3>
+                <div class="s-header">🐀</div>
+                <div class="s-body">
+                    <h3>Ratas y Ratones</h3>
                     <span class="s-price">Desde $120.000</span>
-                    <p>Eliminación y exclusión de ratas y ratones mediante cebos certificados y sellado técnico.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Sellado de accesos</li>
-                        <li><span>✓</span> Estaciones de cebo</li>
+                    <p>Eliminación de roedores mediante estaciones de cebado de seguridad y sellado de rutas.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Inspección de accesos</li>
+                        <li><span>✓</span> Instalación de cebos</li>
                         <li><span>✓</span> Seguimiento 15 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Control%20de%20Roedores.%20¿Me%20pueden%20dar%20más%20información%3F%20🐀" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20necesito%20ayuda%20con%20el%20control%20de%20ratas%20y%20ratones%20🐀" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
             <!-- S4 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🐛</div>
-                <div class="s-card-body">
+                <div class="s-header">🐛</div>
+                <div class="s-body">
                     <h3>Fumigación Pulgas</h3>
                     <span class="s-price">Desde $85.000</span>
-                    <p>Tratamiento profundo para alfombras, camas y áreas de mascotas con polvos de contacto.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Áreas críticas</li>
-                        <li><span>✓</span> Sin toxicidad pets</li>
+                    <p>Tratamiento residual potente para alfombras, camas y sofás. Seguro para toda la familia.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Todas las áreas</li>
+                        <li><span>✓</span> Productos pet-friendly</li>
                         <li><span>✓</span> Garantía 21 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Fumigación%20de%20Pulgas.%20¿Me%20pueden%20dar%20más%20información%3F%20🐛" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20info%20sobre el servicio para pulgas 🐛" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
             <!-- S5 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🐜</div>
-                <div class="s-card-body">
-                    <h3>Control Hormigas</h3>
+                <div class="s-header">Ant</div>
+                <div class="s-body">
+                    <h3>Control Hormigas 🐜</h3>
                     <span class="s-price">Desde $70.000</span>
-                    <p>Localización inteligente de hormigueros y aplicación de micro-cebos de efecto retardado.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Hormiguero focal</li>
-                        <li><span>✓</span> Sin olor fuerte</li>
+                    <p>Controlamos hormigas de jardín e interiores mediante localización de hormigueros principales.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Localización hormiguero</li>
+                        <li><span>✓</span> Gel y polvo</li>
                         <li><span>✓</span> Garantía 30 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Control%20de%20Hormigas.%20¿Me%20pueden%20dar%20más%20información%3F%20🐜" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20tengo un problema de hormigas 🐜" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
             <!-- S6 -->
             <div class="service-card reveal">
-                <div class="s-card-header">🕷️</div>
-                <div class="s-card-body">
+                <div class="s-header">🕷️</div>
+                <div class="s-body">
                     <h3>Fumigación Arañas</h3>
                     <span class="s-price">Desde $75.000</span>
-                    <p>Eliminación de telarañas y aplicación residual en grietas, techos y rincones oscuros.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Remoción telarañas</li>
-                        <li><span>✓</span> Zonas difíciles</li>
+                    <p>Eliminación de arañas comunes y peligrosas. Incluye limpieza profunda de rincones.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Limpieza telarañas</li>
+                        <li><span>✓</span> Grietas y rincones</li>
                         <li><span>✓</span> Garantía 30 días</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20de%20Fumigación%20de%20Arañas.%20¿Me%20pueden%20dar%20más%20información%3F%20🕷️" target="_blank" class="btn-card">Pedir este servicio</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20ayuda con fumigación de arañas 🕷️" target="_blank" class="btn-service">Pedir este servicio</a>
                 </div>
             </div>
-            <!-- S7 -->
+            <!-- S7 - Popular -->
             <div class="service-card reveal">
-                <div class="card-badge">MÁS POPULAR</div>
-                <div class="s-card-header">🏢</div>
-                <div class="s-card-body">
+                <div class="service-badge">⭐ MÁS POPULAR</div>
+                <div class="s-header">🏢</div>
+                <div class="s-body">
                     <h3>Fumi Empresarial</h3>
                     <span class="s-price">Desde $200.000</span>
-                    <p>Servicio para restaurantes y bodegas. Incluye Certificado Sanitario para inspecciones.</p>
-                    <ul class="s-list">
+                    <p>Ideal para restaurantes y oficinas. Entrega inmediata del Certificado Sanitario oficial.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Certificado sanitario</li>
                         <li><span>✓</span> Todas las plagas</li>
-                        <li><span>✓</span> Certificado INVIMA</li>
-                        <li><span>✓</span> Visita seguimiento</li>
+                        <li><span>✓</span> Contrato mantenimiento</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20me%20interesa%20el%20servicio%20Empresarial.%20Requiero%20cotización%20y%20certificado%20sanitario. 🏢" target="_blank" class="btn-card">Solicitar cotización</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20necesito una cotización empresarial 🏢" target="_blank" class="btn-service" style="background: var(--primary-dark);">Solicitar cotización</a>
                 </div>
             </div>
-            <!-- S8 -->
+            <!-- S8 - Best Price -->
             <div class="service-card reveal">
-                <div class="card-badge green">MEJOR PRECIO</div>
-                <div class="s-card-header">🏠</div>
-                <div class="s-card-body">
+                <div class="service-badge orange">💰 MEJOR PRECIO</div>
+                <div class="s-header">🏠</div>
+                <div class="s-body">
                     <h3>Plan Hogar Total</h3>
-                    <span class="s-price">Desde $150.000</span>
-                    <p style="text-decoration: line-through; opacity: 0.5;">~~$220.000~~</p>
-                    <p>Fumigación completa contra todo tipo de plagas comunes en una sola visita integral.</p>
-                    <ul class="s-list">
-                        <li><span>✓</span> Cobertura Total</li>
+                    <span class="s-price">Desde $150.000 <span class="s-price-o">$220.000</span></span>
+                    <p>Fumigación integral contra todo tipo de plagas comunes en una sola visita para toda la casa.</p>
+                    <ul class="s-features">
+                        <li><span>✓</span> Todas las plagas</li>
                         <li><span>✓</span> Garantía 45 días</li>
-                        <li><span>✓</span> Int / Ext completo</li>
+                        <li><span>✓</span> Sin costo por tamaño</li>
                     </ul>
-                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20el%20Plan%20Hogar%20Total%20🏠%20¿Qué%20fechas%20tienen%20disponibles%3F" target="_blank" class="btn-card">Pedir plan completo</a>
+                    <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero el Plan Hogar Completo 🏠" target="_blank" class="btn-service">Pedir plan completo</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section class="process-sec">
+    <!-- Process -->
+    <section class="steps-sec">
         <div class="section-header reveal">
             <span class="badge-sec">¿Cómo funciona?</span>
             <h2 class="section-title">Tu pedido en 4 simples pasos</h2>
         </div>
-        <div class="process-grid reveal">
+        <div class="steps-grid reveal">
             <div class="step">
                 <span class="step-num">01</span>
-                <span class="step-icon">🔍</span>
-                <h4>Elige tu servicio</h4>
-                <p>Selecciona el servicio según el tipo de plaga que te afecta.</p>
+                <div class="step-content">
+                    <span class="step-icon">🔍</span>
+                    <h4>Elige tu servicio</h4>
+                    <p>Selecciona el servicio que necesitas según el tipo de plaga que te afecta.</p>
+                </div>
             </div>
             <div class="step">
                 <span class="step-num">02</span>
-                <span class="step-icon">📱</span>
-                <h4>Contáctanos</h4>
-                <p>Haz clic en WhatsApp y cuéntanos sobre tu problema.</p>
+                <div class="step-content">
+                    <span class="step-icon">📱</span>
+                    <h4>Escríbenos</h4>
+                    <p>Haz clic en WhatsApp y cuéntanos sobre tu caso para una asesoría rápida.</p>
+                </div>
             </div>
             <div class="step">
                 <span class="step-num">03</span>
-                <span class="step-icon">📅</span>
-                <h4>Agendamos</h4>
-                <p>Coordinamos el día y la hora más conveniente para ti.</p>
+                <div class="step-content">
+                    <span class="step-icon">📅</span>
+                    <h4>Agendamos</h4>
+                    <p>Coordinamos el día y la hora que mejor se acomode a tus horarios.</p>
+                </div>
             </div>
             <div class="step">
                 <span class="step-num">04</span>
-                <span class="step-icon">✅</span>
-                <h4>¡Punto Limpio!</h4>
-                <p>Nuestro equipo resuelve el problema y tu hogar queda protegido.</p>
+                <div class="step-content">
+                    <span class="step-icon">✅</span>
+                    <h4>¡Listo!</h4>
+                    <p>Nuestro equipo va a tu hogar y elimina el problema de raíz con garantía.</p>
+                </div>
             </div>
-        </div>
-        <div class="process-btn-box reveal">
-             <a href="https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20solicitar%20un%20servicio%20de%20fumigación%20🦟" target="_blank" class="btn-hero-solid">📱 Hacer mi pedido ahora</a>
         </div>
     </section>
 
     <!-- Why Us -->
     <section id="nosotros">
         <div class="section-header reveal">
-            <h2 class="section-title">¿Por qué elegir FumiPro?</h2>
+            <h2 class="section-title">¿Por qué confiar en FumiPro?</h2>
         </div>
-        <div class="why-grid">
-            <div class="why-item reveal">
-                <div class="why-icon">🛡️</div>
-                <div class="why-text">
+        <div class="why-grid reveal">
+            <div class="why-card">
+                <span class="icon">🛡️</span>
+                <div class="text">
                     <h4>Productos Certificados</h4>
-                    <p>Seguros para tu familia y mascotas. Aprobados por autoridades sanitarias.</p>
+                    <p>Usamos solo productos aprobados por el INVIMA, seguros para humanos y mascotas.</p>
                 </div>
             </div>
-            <div class="why-item reveal">
-                <div class="why-icon">👨‍🔬</div>
-                <div class="why-text">
+            <div class="why-card">
+                <span class="icon">👨‍🔬</span>
+                <div class="text">
                     <h4>Personal Capacitado</h4>
-                    <p>Técnicos certificados en el manejo seguro de químicos y control biológico.</p>
+                    <p>Técnicos certificados con amplia experiencia en control integral de plagas urbanas.</p>
                 </div>
             </div>
-            <div class="why-item reveal">
-                <div class="why-icon">⚡</div>
-                <div class="why-text">
+            <div class="why-card">
+                <span class="icon">⚡</span>
+                <div class="text">
                     <h4>Respuesta Rápida</h4>
-                    <p>Atención prioritaria. Agendamos visitas en menos de 24 horas.</p>
+                    <p>Atendemos tu solicitud en tiempo récord y agendamos tu visita el mismo día.</p>
                 </div>
             </div>
-            <div class="why-item reveal">
-                <div class="why-icon">✅</div>
-                <div class="why-text">
+            <div class="why-card">
+                <span class="icon">✅</span>
+                <div class="text">
                     <h4>Garantía Real</h4>
-                    <p>Si la plaga vuelve en el periodo de garantía, nosotros también volvemos GRATIS.</p>
+                    <p>Nuestros servicios tienen respaldo real. Si la plaga vuelve, nosotros también volvemos.</p>
                 </div>
             </div>
-            <div class="why-item reveal">
-                <div class="why-icon">💰</div>
-                <div class="why-text">
+            <div class="why-card">
+                <span class="icon">💰</span>
+                <div class="text">
                     <h4>Precios Justos</h4>
-                    <p>Tarifas competitivas y transparentes. Sin sorpresas al final del servicio.</p>
+                    <p>Tarifas competitivas sin costos ocultos. Sabes lo que pagas desde el inicio.</p>
                 </div>
             </div>
-            <div class="why-item reveal">
-                <div class="why-icon">📋</div>
-                <div class="why-text">
+            <div class="why-card">
+                <span class="icon">📋</span>
+                <div class="text">
                     <h4>Certificado Sanitario</h4>
-                    <p>Documentación oficial válida para inspecciones de salud en negocios.</p>
+                    <p>Emitimos certificaciones válidas para establecimientos comerciales y gubernamentales.</p>
                 </div>
             </div>
         </div>
@@ -664,46 +648,41 @@
         <div class="section-header reveal">
             <h2 class="section-title">Lo que dicen nuestros clientes</h2>
         </div>
-        <div class="testi-grid">
-            <div class="testi-card reveal">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>Excelente servicio, llegaron puntual y resolvieron el problema de cucarachas que teníamos hace meses. ¡100% recomendado!</p>
-                <span class="testi-user">— María González, Bogotá</span>
+        <div class="testi-grid reveal">
+            <div class="testi-card">
+                <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                <p>"Excelente servicio, resolvieron el problema de cucarachas en una sola visita. Puntuales y muy profesionales. ¡100% recomendado!"</p>
+                <span class="user">— María González, Bogotá</span>
             </div>
-            <div class="testi-card reveal">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>Contraté el plan hogar completo y quedé muy satisfecha. Los productos no tienen olor fuerte y fue muy efectivo.</p>
-                <span class="testi-user">— Carlos Martínez, Medellín</span>
+            <div class="testi-card">
+                <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                <p>"El plan hogar completo fue perfecto para mi nueva casa. Los productos casi no tienen olor y fue realmente efectivo con los mosquitos."</p>
+                <span class="user">— Carlos Martínez, Medellín</span>
             </div>
-            <div class="testi-card reveal">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p>Para mi restaurante fue perfecto. Me dieron el certificado sanitario puntualmente y el servicio fue muy profesional.</p>
-                <span class="testi-user">— Ana Rodríguez, Cali</span>
+            <div class="testi-card">
+                <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                <p>"Para mi restaurante fue ideal. El certificado sanitario está al día y el personal sabe mucho del tema. Muy confiables."</p>
+                <span class="user">— Ana Rodríguez, Cali</span>
             </div>
         </div>
     </section>
 
-    <!-- Order Form Section -->
-    <section id="contacto" class="contact-sec">
-        <div class="contact-desc reveal">
-            <h2 class="section-title" style="color: white;">¿Listo para un hogar libre de plagas?</h2>
-            <p>Escríbenos ahora y te respondemos en tiempo récord</p>
-        </div>
-
-        <div class="form-container reveal">
-            <h3>Hacer mi pedido</h3>
+    <!-- Contact Form -->
+    <section class="order-sec" id="contacto">
+        <div class="order-container reveal">
+            <h3>Haz tu pedido ahora</h3>
             <form id="order-form">
                 <div class="f-group">
-                    <label>Nombre completo</label>
-                    <input type="text" id="f-name" placeholder="Ej: Juan Pérez" required>
+                    <label class="f-label">Nombre completo *</label>
+                    <input type="text" id="name" class="f-input" placeholder="Tu nombre" required>
                 </div>
                 <div class="f-group">
-                    <label>Ciudad / Barrio</label>
-                    <input type="text" id="f-city" placeholder="Ej: Bogotá - Kennedy" required>
+                    <label class="f-label">Ciudad o Barrio *</label>
+                    <input type="text" id="location" class="f-input" placeholder="Ej: Bogotá - Suba" required>
                 </div>
                 <div class="f-group">
-                    <label>Servicio requerido</label>
-                    <select id="f-service">
+                    <label class="f-label">Servicio requerido *</label>
+                    <select id="service" class="f-input" required>
                         <option value="Fumigación de Cucarachas">🪲 Fumigación Cucarachas</option>
                         <option value="Fumigación de Mosquitos">🦟 Fumigación Mosquitos</option>
                         <option value="Control de Roedores">🐀 Control Roedores</option>
@@ -715,20 +694,20 @@
                     </select>
                 </div>
                 <div class="f-group">
-                    <label>Tipo de inmueble</label>
-                    <select id="f-type">
+                    <label class="f-label">Tipo de inmueble</label>
+                    <select id="property" class="f-input">
                         <option value="Casa">Casa</option>
                         <option value="Apartamento">Apartamento</option>
                         <option value="Local / Empresa">Local / Empresa</option>
                     </select>
                 </div>
                 <div class="f-group">
-                    <label>Descripción del problema</label>
-                    <textarea id="f-desc" rows="3" placeholder="Cuéntanos un poco sobre lo que sucede..." required></textarea>
+                    <label class="f-label">Descripción del problema *</label>
+                    <textarea id="problem" class="f-input" rows="3" placeholder="Cuéntanos un poco sobre el tipo de plaga..." required></textarea>
                 </div>
                 <div class="f-group">
-                    <label>Horario preferido</label>
-                    <select id="f-time">
+                    <label class="f-label">Horario preferido</label>
+                    <select id="time" class="f-input">
                         <option value="Mañana (8am-12pm)">Mañana (8am-12pm)</option>
                         <option value="Tarde (12pm-6pm)">Tarde (12pm-6pm)</option>
                         <option value="Cualquier horario">Cualquier horario</option>
@@ -744,8 +723,8 @@
         <div class="footer-grid">
             <div>
                 <span class="logo footer-logo" style="color: white;">🛡️ FumiPro</span>
-                <p class="footer-text">Tu hogar limpio, tu familia protegida. Líderes en el control profesional de plagas.</p>
-                <p style="margin-top: 15px; font-weight: 700;">📞 +57 313 863 2478</p>
+                <p style="opacity: 0.7; margin-bottom: 20px;">Tu hogar limpio, tu familia protegida. Especialistas en desinfección integral.</p>
+                <p style="font-weight: 700; font-size: 1.1rem;">📱 +57 313 863 2478</p>
             </div>
             <div class="footer-links">
                 <h5>Navegación</h5>
@@ -756,79 +735,77 @@
                 </ul>
             </div>
             <div class="footer-hours">
-                <h5>Horarios de Atención</h5>
-                <p>Lunes a Sábado: <span>7am - 7pm</span></p>
-                <p>Domingos: <span>8am - 2pm</span></p>
-                <a href="https://wa.me/573138632478" target="_blank" style="background:#25D366; color:white; padding:8px 20px; border-radius:8px; display:inline-block; margin-top:10px; font-size:0.8rem; font-weight:700;">Chat WhatsApp</a>
+                <h5>Horario Laboral</h5>
+                <p>Lunes a Sábado <strong>7am - 7pm</strong></p>
+                <p>Domingos <strong>8am - 2pm</strong></p>
             </div>
         </div>
         <div class="footer-bottom">
-             © 2026 FumiPro · Todos los derechos reservados · Servicio profesional de fumigación
+            © 2026 FumiPro · Servicio profesional de fumigación
         </div>
     </footer>
 
     <!-- WhatsApp Floating -->
-    <div class="wa-float" onclick="window.open('https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20información%20sobre%20sus%20servicios%20de%20fumigación', '_blank')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+    <div class="wa-floating" onclick="window.open('https://wa.me/573138632478?text=Hola%20FumiPro%2C%20quiero%20información%20sobre%20fumigación%20🦟', '_blank')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 16 16">
             <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
         </svg>
-        <div class="wa-badge">1</div>
-        <div class="wa-tooltip">¡Pide tu servicio!</div>
+        <div class="wa-notify">1</div>
+        <div class="wa-tip">¡Pide tu servicio!</div>
     </div>
 
     <script>
-        // --- Mobile Menu ---
+        // Toggle mobile menu
         function toggleMenu() {
             const links = document.getElementById('nav-links');
             links.classList.toggle('active');
         }
 
-        // --- Reveal Effect ---
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
+        // Scroll animations
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // --- Form Logic ---
-        document.getElementById('order-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('f-name').value;
-            const city = document.getElementById('f-city').value;
-            const service = document.getElementById('f-service').value;
-            const type = document.getElementById('f-type').value;
-            const desc = document.getElementById('f-desc').value;
-            const time = document.getElementById('f-time').value;
-
-            const msg = `🦟 NUEVO PEDIDO - FumiPro
-
-👤 Nombre: ${name}
-📍 Ciudad: ${city}
-🔧 Servicio: ${service}
-🏠 Inmueble: ${type}
-📝 Problema: ${desc}
-⏰ Horario: ${time}
-
-Enviado desde la página web`;
-
-            window.open('https://wa.me/573138632478?text=' + encodeURIComponent(msg), '_blank');
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('scrolled');
+                nav.style.top = '0';
+            } else {
+                nav.classList.remove('scrolled');
+                nav.style.top = '36px';
+            }
         });
 
-        // --- Sticky Nav Adjustment ---
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 0) {
-                nav.style.top = '0';
-                nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-            } else {
-                nav.style.top = '40px';
-                nav.style.boxShadow = 'none';
-            }
+        // Form Submission logic
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('name').value;
+            const ciudad = document.getElementById('location').value;
+            const servicio = document.getElementById('service').value;
+            const inmueble = document.getElementById('property').value;
+            const problema = document.getElementById('problem').value;
+            const horario = document.getElementById('time').value;
+
+            const msg = `🦟 NUEVO PEDIDO — FumiPro
+
+👤 Nombre: ${nombre}
+📍 Ciudad: ${ciudad}
+🔧 Servicio: ${servicio}
+🏠 Inmueble: ${inmueble}
+📝 Problema: ${problema}
+⏰ Horario: ${horario}
+
+_Enviado desde fumipro.com_`;
+
+            window.open('https://wa.me/573138632478?text=' + encodeURIComponent(msg), '_blank');
         });
     </script>
 </body>
