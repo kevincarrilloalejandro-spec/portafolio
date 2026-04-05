@@ -582,10 +582,53 @@
             position: relative;
         }
 
-        .p-h-1 { background: linear-gradient(45deg, #1e1e3f, #3b3b7a); }
+        .p-h-1 { background: linear-gradient(45deg, #004D40, #00897B); }
         .p-h-2 { background: linear-gradient(45deg, #2d1b24, #5c3545); }
         .p-h-3 { background: linear-gradient(45deg, #112d21, #255c45); }
         .p-h-4 { background: linear-gradient(45deg, #111e2d, #25405c); }
+
+        .project-card.upcoming {
+            opacity: 0.6;
+            border-style: dashed;
+            border-width: 2px;
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: rgba(224, 242, 241, 0.9);
+            color: #004D40;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .project-badge.gray {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .project-list {
+            margin-bottom: 25px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-list li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .project-list li span {
+            color: #4ADE80;
+        }
 
         .project-tags {
             position: absolute;
@@ -1115,74 +1158,70 @@
             <!-- Project 1 -->
             <div class="project-card reveal">
                 <div class="project-header p-h-1">
-                    🛒
+                    <div class="project-badge">Tienda Online</div>
+                    🛡️🦟
                     <div class="project-tags">
-                        <span class="project-tag">E-commerce</span>
-                        <span class="project-tag">React</span>
-                        <span class="project-tag">Node.js</span>
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">WhatsApp API</span>
                     </div>
                 </div>
                 <div class="project-body">
-                    <h3>Tienda Online</h3>
-                    <p>Plataforma de ventas completa con carrito de compras, gestión de productos y pagos integrados.</p>
+                    <h3>FumiPro — Fumigación</h3>
+                    <p>Tienda online completa para empresa de fumigación. Catálogo de servicios, pedidos por WhatsApp y diseño enfocado en conseguir clientes.</p>
+                    <ul class="project-list">
+                        <li><span>✓</span> 8 servicios con precios</li>
+                        <li><span>✓</span> Formulario de pedidos</li>
+                        <li><span>✓</span> Botón WhatsApp flotante</li>
+                        <li><span>✓</span> 100% responsive</li>
+                        <li><span>✓</span> Animaciones profesionales</li>
+                    </ul>
                     <div class="project-actions">
-                        <a href="#" class="btn-p-main">Ver demo</a>
-                        <a href="#" class="btn-p-sec">Código</a>
+                        <a href="fumigacion-demo.html" class="btn-p-main">🔗 Ver demo</a>
+                        <a href="https://wa.me/573138632478?text=Hola%20Kevin%2C%20vi%20el%20proyecto%20de%20FumiPro%20en%20tu%20portafolio%20y%20quiero%20algo%20similar%20para%20mi%20negocio%20🙌" target="_blank" class="btn-p-sec">💬 Quiero algo así</a>
                     </div>
                 </div>
             </div>
             <!-- Project 2 -->
-            <div class="project-card reveal">
-                <div class="project-header p-h-2">
-                    🏪
-                    <div class="project-tags">
-                        <span class="project-tag">Negocio local</span>
-                        <span class="project-tag">HTML</span>
-                        <span class="project-tag">CSS</span>
-                    </div>
+            <div class="project-card upcoming reveal">
+                <div class="project-header" style="background: #1a1a2e;">
+                    <div class="project-badge gray">Próximamente</div>
+                    ⏳
                 </div>
                 <div class="project-body">
-                    <h3>Landing Page Negocio</h3>
-                    <p>Página de presentación para servicios locales con fuerte enfoque en captación de leads.</p>
+                    <h3>Nuevo proyecto</h3>
+                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
                     <div class="project-actions">
-                        <a href="#" class="btn-p-main">Ver demo</a>
-                        <a href="#" class="btn-p-sec">Código</a>
+                        <a href="https://wa.me/573138632478?text=Hola%20Kevin%2C%20quiero%20proponer%20un%20proyecto%20para%20mi%20negocio" target="_blank" class="btn-p-sec">💬 Proponer proyecto</a>
                     </div>
                 </div>
             </div>
             <!-- Project 3 -->
-            <div class="project-card reveal">
-                <div class="project-header p-h-3">
-                    📊
-                    <div class="project-tags">
-                        <span class="project-tag">Dashboard</span>
-                        <span class="project-tag">JavaScript</span>
-                    </div>
+            <div class="project-card upcoming reveal">
+                <div class="project-header" style="background: #1a1a2e;">
+                    <div class="project-badge gray">Próximamente</div>
+                    ⏳
                 </div>
                 <div class="project-body">
-                    <h3>Panel Administrativo</h3>
-                    <p>Sistema de gestión interna con visualización de estadísticas y métricas en tiempo real.</p>
+                    <h3>Nuevo proyecto</h3>
+                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
                     <div class="project-actions">
-                        <a href="#" class="btn-p-main">Ver demo</a>
-                        <a href="#" class="btn-p-sec">Código</a>
+                        <a href="https://wa.me/573138632478?text=Hola%20Kevin%2C%20quiero%20proponer%20un%20proyecto%20para%20mi%20negocio" target="_blank" class="btn-p-sec">💬 Proponer proyecto</a>
                     </div>
                 </div>
             </div>
             <!-- Project 4 -->
-            <div class="project-card reveal">
-                <div class="project-header p-h-4">
-                    🎨
-                    <div class="project-tags">
-                        <span class="project-tag">Portafolio</span>
-                        <span class="project-tag">Animaciones</span>
-                    </div>
+            <div class="project-card upcoming reveal">
+                <div class="project-header" style="background: #1a1a2e;">
+                    <div class="project-badge gray">Próximamente</div>
+                    ⏳
                 </div>
                 <div class="project-body">
-                    <h3>Portafolio Creativo</h3>
-                    <p>Sitio personal con diseño premium cargado de micro-interacciones y animaciones avanzadas.</p>
+                    <h3>Nuevo proyecto</h3>
+                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
                     <div class="project-actions">
-                        <a href="#" class="btn-p-main">Ver demo</a>
-                        <a href="#" class="btn-p-sec">Código</a>
+                        <a href="https://wa.me/573138632478?text=Hola%20Kevin%2C%20quiero%20proponer%20un%20proyecto%20para%20mi%20negocio" target="_blank" class="btn-p-sec">💬 Proponer proyecto</a>
                     </div>
                 </div>
             </div>
