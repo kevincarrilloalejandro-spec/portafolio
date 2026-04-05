@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Código Fuente — FumiPro (Kevin Ramírez)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --editor-bg: #1e1e1e;
+            --sidebar-bg: #252526;
+            --header-bg: #323233;
+            --banner-bg: #0a0a0f;
+            --accent: #6C63FF;
+            --text-gray: #858585;
+            --text-white: #d4d4d4;
+            
+            /* Syntax Highlighting */
+            --tag: #569CD6;
+            --attr: #9CDCFE;
+            --value: #CE9178;
+            --comment: #6A9955;
+            --keyword: #C586C0;
+            --func: #DCDCAA;
+            --number: #B5CEA8;
+            --text: #D4D4D4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--editor-bg);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Main page no scroll */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Top Banner --- */
+        .top-banner {
+            background: var(--banner-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .back-btn:hover { background: #5b52e0; }
+
+        /* --- Editor Header --- */
+        .editor-header {
+            background: var(--header-bg);
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        .window-controls { display: flex; gap: 8px; }
+        .control { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #FF5F57; }
+        .yellow { background: #FFBD2E; }
+        .green { background: #28C840; }
+
+        .filename-center { font-size: 12px; color: #ccc; display: flex; align-items: center; gap: 6px; }
+        .badge-lang { background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 4px; font-size: 10px; color: var(--text-gray); }
+
+        /* --- Tabs --- */
+        .tabs-row {
+            background: #2d2d2d;
+            height: 35px;
+            display: flex;
+        }
+
+        .tab {
+            background: var(--editor-bg);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            border-top: 2px solid var(--accent);
+            cursor: pointer;
+        }
+
+        /* --- Main Layout --- */
+        .main-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            background: var(--sidebar-bg);
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            padding: 0 20px 10px;
+            text-transform: uppercase;
+        }
+
+        .file-item {
+            padding: 4px 20px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-gray);
+            cursor: pointer;
+        }
+        .file-item.active { background: rgba(108, 99, 255, 0.1); color: white; }
+        .file-item:hover:not(.active) { background: rgba(255,255,255,0.05); }
+
+        /* Code Area */
+        .editor-area {
+            flex: 1;
+            display: flex;
+            overflow: auto;
+            position: relative;
+        }
+
+        .line-numbers {
+            width: 55px;
+            background: var(--editor-bg);
+            padding: 20px 15px 20px 0;
+            text-align: right;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: #858585;
+            user-select: none;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            line-height: 1.6;
+        }
+
+        .code-content {
+            flex: 1;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre;
+            color: var(--text);
+            tab-size: 2;
+        }
+
+        /* Syntax classes */
+        .tag { color: var(--tag); }
+        .attr { color: var(--attr); }
+        .val { color: var(--value); }
+        .cmnt { color: var(--comment); }
+        .kw { color: var(--keyword); }
+        .fn { color: var(--func); }
+        .num { color: var(--number); }
+
+        .line-highlight {
+            position: absolute;
+            left: 0; right: 0;
+            height: 1.6em;
+            background: #2a2a2a;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.1s;
+        }
+
+        /* --- Floating Copy Button --- */
+        .copy-btn {
+            position: fixed;
+            top: 100px;
+            right: 40px;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: none;
+            z-index: 500;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { transform: scale(1.05); }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--editor-bg); }
+        ::-webkit-scrollbar-thumb { background: #424242; border: 3px solid var(--editor-bg); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f4f4f; }
+
+        /* --- Mobile Adjust --- */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .tabs-row { display: none; }
+            .copy-btn { top: 90px; right: 20px; }
+            .line-numbers { width: 40px; padding-right: 10px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Attribution Banner -->
+    <div class="top-banner">
+        <div>👨‍💻 Código creado por Kevin Ramírez</div>
+        <div>
+            Líneas: <span id="line-count">450</span> | Caracteres: <span id="char-count">12,410</span>
+            &nbsp;&nbsp;
+            <a href="index.html" class="back-btn">← Volver al portafolio</a>
+        </div>
+    </div>
+
+    <!-- Editor Header -->
+    <div class="editor-header">
+        <div class="window-controls">
+            <div class="control red"></div>
+            <div class="control yellow"></div>
+            <div class="control green"></div>
+        </div>
+        <div class="filename-center">📄 fumigacion.html</div>
+        <div class="badge-lang">HTML · CSS · JavaScript</div>
+    </div>
+
+    <!-- Tab Row -->
+    <div class="tabs-row">
+        <div class="tab">📄 fumigacion.html</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar Explorer -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Explorador</div>
+            <div class="file-item">
+                <span style="color: #61afef;">📁</span> proyecto-fumipro
+            </div>
+            <div class="file-item active" style="margin-left: 20px;">
+                <span>📄</span> fumigacion.html
+            </div>
+            <div class="file-item" style="margin-left: 20px;">
+                <span>📄</span> README.md
+            </div>
+        </aside>
+
+        <!-- Code Area -->
+        <div class="editor-area" id="editor">
+            <div class="line-numbers" id="numbers"></div>
+            <div class="code-content" id="code-root"></div>
+            <div class="line-highlight" id="highlight"></div>
+        </div>
+    </div>
+
+    <!-- Floating Copy -->
+    <button class="copy-btn" onclick="copyCode(this)">
+        <span id="copy-icon">📋</span> <span id="copy-text">Copiar código</span>
+    </button>
+
+    <script>
+        // --- Full Code Snippet (Provided in Request) ---
+        const rawCode = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Meta tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FumiPro — Fumigación profesional</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== VARIABLES CSS ===== */
+    :root {
+      --primary: #00897B;
+      --primary-dark: #004D40;
+      --accent: #FF6F00;
+      --text: #1a1a1a;
+      --bg: #f8fffe;
+    }
+
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; width: 100%;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #004D40, #00897B);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 32px 60px;
+    }
+
+    /* ===== SERVICIOS ===== */
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 60px 32px;
+    }
+
+    .servicio-card {
+      background: white;
+      border-radius: 16px;
+      border-top: 3px solid var(--primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 24px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .servicio-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,137,123,0.2);
+    }
+
+    /* ===== BOTÓN WHATSAPP ===== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 65px; height: 65px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+      animation: pulso 2s infinite;
+      z-index: 9999;
+    }
+
+    @keyframes pulso {
+      0%, 100% { box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 8px 40px rgba(37,211,102,0.7); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .servicios-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .servicios-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="logo">🛡️ <span>FumiPro</span></div>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="https://wa.me/573138632478" class="btn-primary" target="_blank">Pedir ahora</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <span class="badge">✓ Más de 500 hogares protegidos</span>
+      <h1>Fumigación profesional para tu hogar y negocio</h1>
+      <p>Eliminamos plagas de forma segura y efectiva.</p>
+      <ul class="beneficios">
+        <li>✓ Productos certificados</li>
+        <li>✓ Personal capacitado</li>
+        <li>✓ Garantía real</li>
+      </ul>
+      <a href="https://wa.me/573138632478?text=Hola%20FumiPro" class="btn-naranja" target="_blank">📱 Pedir servicio ahora</a>
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS ===== -->
+  <section id="servicios">
+    <h2>¿Qué plaga necesitas eliminar?</h2>
+    <div class="servicios-grid">
+      <div class="servicio-card">
+        <div class="card-icon">🪲</div>
+        <h3>Cucarachas</h3>
+        <p class="precio">Desde $80.000</p>
+        <ul class="incluye">
+          <li>✓ Inspección previa</li>
+          <li>✓ Aplicación en focos</li>
+          <li>✓ Garantía 30 días</li>
+        </ul>
+        <a href="https://wa.me/573138632478?text=Quiero%20fumigación" class="btn-servicio" target="_blank">Pedir este servicio</a>
+      </div>
+      <div class="servicio-card">
+        <div class="card-icon">🦟</div>
+        <h3>Mosquitos</h3>
+        <p class="precio">Desde $90.000</p>
+        <ul class="incluye">
+          <li>✓ Interior y exterior</li>
+          <li>✓ Seguro para mascotas</li>
+          <li>✓ Garantía 30 días</li>
+        </ul>
+        <a href="https://wa.me/573138632478" class="btn-servicio" target="_blank">Pedir este servicio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FORMULARIO ===== -->
+  <section id="contacto">
+    <h2>Haz tu pedido ahora</h2>
+    <form id="pedidoForm">
+      <input type="text" id="nombre" placeholder="Tu nombre" required>
+      <select id="servicio" required>
+        <option value="">Selecciona el servicio</option>
+        <option>Cucarachas</option>
+        <option>Mosquitos</option>
+      </select>
+      <button type="submit" class="btn-naranja">📱 Enviar pedido por WhatsApp</button>
+    </form>
+  </section>
+
+  <script>
+    // ===== FORMULARIO PEDIDO =====
+    document.getElementById('pedidoForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const msg = "🦟 NUEVO PEDIDO — FumiPro\\nEnviado desde la página web";
+        window.open('https://wa.me/573138632478?text=' + encodeURIComponent(msg), '_blank');
+    });
+
+    // ===== ANIMACIONES SCROLL =====
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.servicio-card').forEach(card => observer.observe(card));
+  <\/script>
+
+</body>
+</html>`.trim();
+
+        // --- Highlight Logic ---
+        function highlight(code) {
+            // Escaping and highlighting
+            let h = code
+                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                // Comments
+                .replace(/(&lt;!--.*?--&gt;)/g, '<span class="cmnt">$1</span>')
+                .replace(/(\/\*[\s\S]*?\*\/|\/\/.+)/g, '<span class="cmnt">$1</span>')
+                // Tags
+                .replace(/(&lt;\/?)([a-z1-6]+)/gi, '$1<span class="tag">$2</span>')
+                // Attr
+                .replace(/\s([a-z-]+)=/gi, ' <span class="attr">$1</span>=')
+                // Values
+                .replace(/"([^"]+)"/g, '"<span class="val">$1</span>"')
+                // CSS
+                .replace(/([a-z-]+):([^;]+);/gi, '<span class="attr">$1</span>:<span class="val">$2</span>;')
+                // JS
+                .replace(/\b(const|function|let|if|else|return|new|document|window)\b/g, '<span class="kw">$1</span>')
+                .replace(/\b([a-z]+)\(/gi, '<span class="fn">$1</span>(')
+                .replace(/\b(\d+)\b/g, '<span class="num">$1</span>');
+            return h;
+        }
+
+        // --- Render ---
+        const codeRoot = document.getElementById('code-root');
+        const numRoot = document.getElementById('numbers');
+        const lines = rawCode.split('\n');
+        
+        numRoot.innerHTML = lines.map((_, i) => i + 1).join('\n');
+        codeRoot.innerHTML = highlight(rawCode);
+
+        document.getElementById('line-count').innerText = lines.length;
+        document.getElementById('char-count').innerText = rawCode.length.toLocaleString();
+
+        // --- Hover highlight ---
+        const highLayer = document.getElementById('highlight');
+        codeRoot.addEventListener('mousemove', (e) => {
+            const rect = codeRoot.getBoundingClientRect();
+            const y = e.clientY - rect.top;
+            const lineIdx = Math.floor(y / (13 * 1.6));
+            highLayer.style.opacity = 1;
+            highLayer.style.top = (lineIdx * 13 * 1.6 + 20) + 'px';
+        });
+
+        codeRoot.addEventListener('mouseleave', () => highLayer.style.opacity = 0);
+
+        // --- Copy Function ---
+        function copyCode(btn) {
+            navigator.clipboard.writeText(rawCode).then(() => {
+                const text = document.getElementById('copy-text');
+                const icon = document.getElementById('copy-icon');
+                text.innerText = '✓ Copiado!';
+                icon.innerText = '';
+                btn.style.background = '#28C840';
+                setTimeout(() => {
+                    text.innerText = 'Copiar código';
+                    icon.innerText = '📋';
+                    btn.style.background = '#6C63FF';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

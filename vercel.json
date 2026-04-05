@@ -6,6 +6,10 @@
       "dest": "/fumigacion-demo.html"
     },
     {
+      "src": "/codigo-fumigacion",
+      "dest": "/codigo-fumigacion.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
