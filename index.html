@@ -556,8 +556,8 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
 
         .project-card {
@@ -582,15 +582,27 @@
             position: relative;
         }
 
-        .p-h-1 { background: linear-gradient(45deg, #004D40, #00897B); }
-        .p-h-2 { background: linear-gradient(45deg, #2d1b24, #5c3545); }
-        .p-h-3 { background: linear-gradient(45deg, #112d21, #255c45); }
-        .p-h-4 { background: linear-gradient(45deg, #111e2d, #25405c); }
+        .p-h-1 { background: linear-gradient(135deg, #004D40, #00897B); }
+        .p-h-2 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+        .p-h-3 { background: linear-gradient(135deg, #7B2D00, #D4541A); }
+        .p-h-4 { background: linear-gradient(135deg, #1a1a2e, #2d2d44); }
 
         .project-card.upcoming {
-            opacity: 0.6;
+            opacity: 0.8;
             border-style: dashed;
             border-width: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card.upcoming:hover {
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        .upcoming-centered {
+            grid-column: 2;
+            max-width: 380px;
+            justify-self: center;
         }
 
         .project-badge {
@@ -1075,7 +1087,7 @@
             .stats-hero { justify-content: center; }
             #sobre-mi { grid-template-columns: 1fr; }
             .services-grid { grid-template-columns: 1fr 1fr; }
-            .projects-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
             .contact-container { grid-template-columns: 1fr; }
             .approach-points { flex-direction: column; align-items: center; }
         }
@@ -1084,6 +1096,8 @@
             .nav-links { display: none; }
             .menu-toggle { display: block; }
             .services-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .upcoming-centered { grid-column: auto; max-width: 100%; }
             .footer-top { flex-direction: column; gap: 40px; text-align: center; align-items: center; }
             .footer-contact-info { text-align: center; }
             .hero h1 { font-size: 2.8rem; }
@@ -1301,44 +1315,68 @@
                 </div>
             </div>
             <!-- Project 2 -->
-            <div class="project-card upcoming reveal">
-                <div class="project-header" style="background: #1a1a2e;">
-                    <div class="project-badge gray">Próximamente</div>
-                    ⏳
+            <div class="project-card reveal">
+                <div class="project-header p-h-2">
+                    <div class="project-badge" style="background: rgba(255,255,255,0.1); color: white;">Negocio Local</div>
+                    ✂️💈
+                    <div class="project-tags">
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
                 </div>
                 <div class="project-body">
-                    <h3>Nuevo proyecto</h3>
-                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
+                    <h3>BarberStyle — Barbería</h3>
+                    <p>Página web elegante para barbería con catálogo de servicios, precios, galería de cortes y reservas por WhatsApp.</p>
+                    <ul class="project-list">
+                        <li><span>✓</span> Catálogo de servicios y precios</li>
+                        <li><span>✓</span> Galería de cortes</li>
+                        <li><span>✓</span> Reservas por WhatsApp</li>
+                        <li><span>✓</span> Diseño oscuro y masculino</li>
+                        <li><span>✓</span> 100% responsive</li>
+                    </ul>
                     <div class="project-actions">
                         <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
                     </div>
                 </div>
             </div>
             <!-- Project 3 -->
-            <div class="project-card upcoming reveal">
-                <div class="project-header" style="background: #1a1a2e;">
-                    <div class="project-badge gray">Próximamente</div>
-                    ⏳
+            <div class="project-card reveal">
+                <div class="project-header p-h-3">
+                    <div class="project-badge" style="background: rgba(123, 45, 0, 0.4); color: #FFCCBC;">Restaurante</div>
+                    🍽️🍕
+                    <div class="project-tags">
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
                 </div>
                 <div class="project-body">
-                    <h3>Nuevo proyecto</h3>
-                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
+                    <h3>Sabor & Arte — Restaurante</h3>
+                    <p>Menú digital completo con categorías, precios y fotos de platos. Pedidos y reservas directas por WhatsApp.</p>
+                    <ul class="project-list">
+                        <li><span>✓</span> Menú digital completo</li>
+                        <li><span>✓</span> Fotos de platos por categoría</li>
+                        <li><span>✓</span> Pedidos por WhatsApp</li>
+                        <li><span>✓</span> Reservas de mesa online</li>
+                        <li><span>✓</span> Diseño cálido y apetitoso</li>
+                    </ul>
                     <div class="project-actions">
                         <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
                     </div>
                 </div>
             </div>
-            <!-- Project 4 -->
-            <div class="project-card upcoming reveal">
-                <div class="project-header" style="background: #1a1a2e;">
+            <!-- Project 4 (Upcoming Centered) -->
+            <div class="project-card upcoming upcoming-centered reveal">
+                <div class="project-header" style="background: #1a1a2e; height: 180px; font-size: 3rem;">
                     <div class="project-badge gray">Próximamente</div>
-                    ⏳
+                    🚀
                 </div>
-                <div class="project-body">
-                    <h3>Nuevo proyecto</h3>
-                    <p>Próximo proyecto en desarrollo. ¿Tienes un negocio que necesita presencia digital?</p>
+                <div class="project-body" style="text-align: center;">
+                    <h3>¿Tienes un negocio?</h3>
+                    <p>Podría ser tu página aquí 👆</p>
                     <div class="project-actions">
-                        <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
+                        <button class="btn-project-unified" style="background: #25D366;" onclick="window.open('https://wa.me/573138632478?text=Hola%20Kevin%2C%20quiero%20una%20p%C3%A1gina%20web%20para%20mi%20negocio%20%F0%9F%9A%80', '_blank')">💬 Proponer proyecto</button>
                     </div>
                 </div>
             </div>
