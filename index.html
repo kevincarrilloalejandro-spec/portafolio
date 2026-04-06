@@ -248,6 +248,7 @@
         .name-gradient {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -695,6 +696,48 @@
             background: #5b52e0;
         }
 
+        .btn-view-project {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-primary), #8E85FF);
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.2);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-view-project:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(108, 99, 255, 0.4);
+            background: linear-gradient(135deg, #7c74ff, #9d96ff);
+        }
+
+        .btn-view-project::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-view-project:hover::after {
+            left: 100%;
+        }
+
         /* --- LEAD MODAL --- */
         .modal-overlay {
             position: fixed;
@@ -844,6 +887,7 @@
             font-size: 3.5rem;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
             display: block;
@@ -1310,7 +1354,7 @@
                         <li><span>✓</span> Animaciones profesionales</li>
                     </ul>
                     <div class="project-actions">
-                        <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
+                        <a href="https://fumi-pro.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-view-project">🌐 Ver página</a>
                     </div>
                 </div>
             </div>
@@ -1336,7 +1380,7 @@
                         <li><span>✓</span> 100% responsive</li>
                     </ul>
                     <div class="project-actions">
-                        <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
+                        <a href="https://blvck-cut.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-view-project">🌐 Ver página</a>
                     </div>
                 </div>
             </div>
@@ -1362,7 +1406,7 @@
                         <li><span>✓</span> Diseño cálido y apetitoso</li>
                     </ul>
                     <div class="project-actions">
-                        <button class="btn-project-unified" onclick="openLeadModal()">🔗 Ver página</button>
+                        <a href="https://la-brasa-dorada.vercel.app/#nosotros" target="_blank" rel="noopener noreferrer" class="btn-view-project">🌐 Ver página</a>
                     </div>
                 </div>
             </div>
